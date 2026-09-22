@@ -255,21 +255,11 @@
 
   <section class="rsvp">
     <h2>Bora confirmar? 🙌</h2>
-    <p class="hint">Escolha uma opção — quem vai já entra direto no grupo do churras no WhatsApp! 🍖</p>
-
-    <div class="field">
-      <label for="name">Seu nome</label>
-      <input id="name" type="text" placeholder="Quem está confirmando?" maxlength="60">
-    </div>
+    <p class="hint">É só escolher — quem vai já entra direto no grupo do churras no WhatsApp! 🍖</p>
 
     <div class="choices">
       <button class="choice" id="btn-yes" type="button"><span class="big">🍖</span>Bora, tô dentro!</button>
       <button class="choice" id="btn-no" type="button"><span class="big">😢</span>Não vou conseguir</button>
-    </div>
-
-    <div class="field" id="extra-field" style="display:none">
-      <label for="extra" id="extra-label">Quer deixar um recado?</label>
-      <textarea id="extra" rows="2" placeholder="Ex.: levo o pão de alho! 🧄"></textarea>
     </div>
 
     <div class="confirm-area" id="area-yes">
@@ -282,14 +272,8 @@
     </div>
 
     <div class="confirm-area" id="area-no">
-      <div class="preview" id="preview"></div>
-      <a class="wa-btn" id="wa-link" target="_blank" rel="noopener">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.33 4.95L2 22l5.3-1.39c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.14-2.9-7.01A9.83 9.83 0 0 0 12.04 2m0 1.67c2.2 0 4.26.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.25 8.25-8.25m-3.53 4.44c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74 2.06.89 2.48.71 2.93.67.45-.04 1.44-.59 1.64-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.47-.28-.25-.13-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.95-.14.17-.28.19-.53.06-.25-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.44-1.35-1.69-.14-.24-.02-.38.11-.5.11-.11.24-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.13-.55-1.32-.75-1.81-.2-.48-.4-.42-.55-.42-.14-.01-.3-.01-.48-.01z"/></svg>
-        Avisar no WhatsApp
-      </a>
-      <br>
-      <button class="copy-btn" id="copy-btn" type="button">ou copiar a mensagem 📋</button>
-      <div class="msg-ok" id="msg-ok">Mensagem copiada! É só colar no chat da Amanda ou do Eduardo. ✅</div>
+      <p class="joy">Poxa, que pena! 😢 Vamos sentir sua falta por aqui.</p>
+      <p class="joy-small">Obrigada por avisar, de coração. Fica o convite pro abraço em outro dia — e no sábado, brinda com a gente de longe! 🥂❤️</p>
     </div>
   </section>
 
@@ -336,78 +320,23 @@
   tick();
 
   /* RSVP */
-  var going=null;
-  var nameInput=document.getElementById("name");
-  var extraField=document.getElementById("extra-field");
-  var extraLabel=document.getElementById("extra-label");
-  var extraInput=document.getElementById("extra");
   var areaYes=document.getElementById("area-yes");
   var areaNo=document.getElementById("area-no");
-  var preview=document.getElementById("preview");
-  var waLink=document.getElementById("wa-link");
   var btnYes=document.getElementById("btn-yes");
   var btnNo=document.getElementById("btn-no");
-  var msgOk=document.getElementById("msg-ok");
-
-  function buildMessage(){
-    var name=(nameInput.value||"").trim()||"(seu nome)";
-    var extra=(extraInput.value||"").trim();
-    var msg;
-    if(going){
-      msg="🎉 Oi! Aqui é *"+name+"*.\nConfirmando presença no churras de aniversário de vocês, dia 26/09 às 16h! 🍖🔥";
-      if(extra) msg+="\nAh, e "+extra;
-    }else{
-      msg="😢 Oi! Aqui é *"+name+"*.\nInfelizmente não vou conseguir ir ao churras do dia 26/09... mas desde já: feliz aniversário pros dois! 🎂❤️";
-      if(extra) msg+="\n"+extra;
-    }
-    return msg;
-  }
-
-  function refresh(){
-    if(going===null) return;
-    if(going){
-      areaYes.classList.add("show");
-      areaNo.classList.remove("show");
-      extraField.style.display="none";
-    }else{
-      var msg=buildMessage();
-      preview.textContent=msg.replace(/\*/g,"");
-      waLink.href="https://wa.me/?text="+encodeURIComponent(msg);
-      areaNo.classList.add("show");
-      areaYes.classList.remove("show");
-      extraField.style.display="block";
-      extraLabel.textContent="Quer deixar um recado? (opcional)";
-    }
-  }
 
   btnYes.addEventListener("click",function(){
-    going=true;
     btnYes.classList.add("sel-yes");
     btnNo.classList.remove("sel-no");
+    areaYes.classList.add("show");
+    areaNo.classList.remove("show");
     confetti();
-    refresh();
   });
   btnNo.addEventListener("click",function(){
-    going=false;
     btnNo.classList.add("sel-no");
     btnYes.classList.remove("sel-yes");
-    refresh();
-  });
-  nameInput.addEventListener("input",refresh);
-  extraInput.addEventListener("input",refresh);
-
-  document.getElementById("copy-btn").addEventListener("click",function(){
-    var msg=buildMessage().replace(/\*/g,"");
-    function done(){msgOk.style.display="block";setTimeout(function(){msgOk.style.display="none";},4000);}
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(msg).then(done).catch(function(){fallback(msg);done();});
-    }else{fallback(msg);done();}
-    function fallback(t){
-      var ta=document.createElement("textarea");
-      ta.value=t;document.body.appendChild(ta);ta.select();
-      try{document.execCommand("copy");}catch(err){}
-      document.body.removeChild(ta);
-    }
+    areaNo.classList.add("show");
+    areaYes.classList.remove("show");
   });
 
   /* confete */
